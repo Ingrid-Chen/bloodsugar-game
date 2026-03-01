@@ -269,6 +269,16 @@
 }
 .animate-low-sugar-shake { animation: low-sugar-shake 0.8s ease-in-out infinite; }
 
+/* Nickname input validation shake */
+@keyframes input-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+.animate-input-shake { animation: input-shake 0.5s ease-in-out; }
+
 /* Science tip popup slide in */
 @keyframes tip-enter {
   0% { transform: translateY(40px) scale(0.9) rotate(-1deg); opacity: 0; }
