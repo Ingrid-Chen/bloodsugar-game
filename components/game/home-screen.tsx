@@ -75,17 +75,19 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
   }
 
   return (
-    <div className="h-svh max-h-[100dvh] flex flex-col items-center paper-bg relative overflow-hidden pt-safe">
-      {/* 右上角规则入口 */}
-      <button
-        type="button"
-        onClick={() => setRulesOpen(true)}
-        className="absolute top-2 right-4 z-10 flex items-center gap-1 px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-800 shadow-[2px_2px_0px_0px_#1e293b] bg-white text-slate-700 text-xs font-bold hover:opacity-90 transition-opacity"
-        aria-label="活动规则"
-      >
-        <BookOpen className="w-3.5 h-3.5" />
-        {"规则"}
-      </button>
+    <div className="h-svh max-h-[100dvh] flex flex-col paper-bg relative overflow-auto pt-safe pb-safe">
+      {/* 右上角规则入口 - 独立一行，不压盖主内容 */}
+      <div className="shrink-0 flex justify-end w-full px-4 pt-3 pb-1">
+        <button
+          type="button"
+          onClick={() => setRulesOpen(true)}
+          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border-[1.5px] border-slate-800 shadow-[2px_2px_0px_0px_#1e293b] bg-white text-slate-700 text-xs font-bold hover:opacity-90 transition-opacity"
+          aria-label="活动规则"
+        >
+          <BookOpen className="w-3.5 h-3.5" />
+          {"规则"}
+        </button>
+      </div>
 
       <Sheet open={rulesOpen} onOpenChange={setRulesOpen}>
         <SheetContent side="right" className="paper-bg border-slate-800 border-l-2">
@@ -100,31 +102,34 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
         </SheetContent>
       </Sheet>
 
-      {/* 主内容区：整体垂直居中，减轻头重脚轻 */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full px-2 pb-4">
-        {/* Main hero - 略缩小移动端以平衡 */}
-        <div className="shrink-0 relative">
-          <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-xl sm:rounded-2xl border-[2.5px] border-slate-800 shadow-[4px_4px_0px_0px_#1e293b] overflow-hidden bg-white animate-bounce-pop">
+      {/* 主内容：上下等距留白，元素间距统一，避免压盖 */}
+      <div className="flex-1 flex flex-col items-center w-full px-4 pt-4 pb-8 sm:pt-6 sm:pb-10 min-h-0">
+        {/* 上留白区（与底部 pb 对称） */}
+        <div className="shrink-0 h-2 sm:h-4" aria-hidden />
+
+        {/* Main hero - 尺寸适中，与下方元素留足间距 */}
+        <div className="shrink-0 relative mt-0">
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-xl sm:rounded-2xl border-[2.5px] border-slate-800 shadow-[4px_4px_0px_0px_#1e293b] overflow-hidden bg-white animate-bounce-pop">
             <Image
               src="/images/s-start.jpg"
               alt={`${displayName} - 控糖生存指南主角`}
               fill
               className="object-cover"
               priority
-              sizes="(max-width: 640px) 160px, 224px"
+              sizes="(max-width: 640px) 144px, 208px"
             />
           </div>
-          <div className="absolute -top-1.5 -right-1.5 bg-[#f5c542] border-2 border-slate-800 shadow-[1.5px_1.5px_0px_0px_#1e293b] rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-xs sm:text-base animate-wiggle">
+          <div className="absolute -top-1 -right-1 bg-[#f5c542] border-2 border-slate-800 shadow-[1.5px_1.5px_0px_0px_#1e293b] rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center text-xs animate-wiggle">
             {"!"}
           </div>
-          <div className="absolute -bottom-1 -left-1 bg-[#5a9a6e] border-2 border-slate-800 shadow-[1.5px_1.5px_0px_0px_#1e293b] rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center text-[10px] sm:text-xs text-white font-bold">
+          <div className="absolute -bottom-1 -left-1 bg-[#5a9a6e] border-2 border-slate-800 shadow-[1.5px_1.5px_0px_0px_#1e293b] rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-[10px] text-white font-bold">
             {"GO"}
           </div>
         </div>
 
-        {/* Title */}
-        <div className="shrink-0 mt-2 sm:mt-3 flex flex-col items-center gap-0.5">
-          <h1 className="text-2xl font-black tracking-wide text-slate-800 leading-tight text-center">
+        {/* Title - 与插画留出间距 */}
+        <div className="shrink-0 mt-4 sm:mt-5 flex flex-col items-center gap-0.5">
+          <h1 className="text-xl sm:text-2xl font-black tracking-wide text-slate-800 leading-tight text-center">
             {"控糖生存指南"}
           </h1>
           <div className="flex items-center gap-1">
@@ -135,8 +140,8 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
           </div>
         </div>
 
-        {/* 气泡：两行 "我是 [USER]" / "我要做出正确饮食选择，健康生活七天？" */}
-        <div className="shrink-0 mt-2 sm:mt-2.5 mx-4 w-full max-w-sm">
+        {/* 气泡 - 与标题、下方区块留足间距 */}
+        <div className="shrink-0 mt-4 sm:mt-5 w-full max-w-sm">
           <div className="speech-bubble px-3 py-2.5 sm:py-3">
             <p className="text-xs sm:text-sm text-slate-600 text-center leading-snug flex flex-wrap items-center justify-center gap-0.5">
               {"我是 "}
@@ -160,15 +165,15 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
             </p>
           </div>
           {showNicknameError && (
-            <p className="mt-1.5 text-[10px] sm:text-xs text-[#e05a5a] font-bold text-center">
+            <p className="mt-2 text-[10px] sm:text-xs text-[#e05a5a] font-bold text-center">
               {"请先填写你的昵称再开始游戏"}
             </p>
           )}
         </div>
 
-        {/* 四维数值：上方提示「每个选择都会影响」 */}
-        <div className="shrink-0 mt-3 sm:mt-3.5 w-full max-w-xs px-4">
-          <p className="text-[10px] sm:text-xs text-slate-500 text-center mb-1.5">
+        {/* 四维数值 - 与气泡、按钮留足间距 */}
+        <div className="shrink-0 mt-4 sm:mt-5 w-full max-w-xs">
+          <p className="text-[10px] sm:text-xs text-slate-500 text-center mb-2">
             {"游戏里，你的每个选择都会影响下面四项数值"}
           </p>
           <div className="grid grid-cols-2 gap-1.5 rounded-lg border-[1.5px] border-slate-800/30 bg-slate-50/50 p-2">
@@ -185,8 +190,8 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className="shrink-0 mt-3 flex flex-col gap-1.5 w-full max-w-[280px] px-2">
+        {/* Buttons - 与数值区、底部提示留足间距 */}
+        <div className="shrink-0 mt-4 sm:mt-5 flex flex-col gap-2 w-full max-w-[280px]">
           {hasSave && (
             <button
               onClick={() => handleSubmit("continue")}
@@ -226,8 +231,8 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
           )}
         </div>
 
-        {/* Swipe hint */}
-        <p className="shrink-0 mt-2 text-[10px] text-slate-400 flex items-center justify-center gap-1">
+        {/* Swipe hint - 底部留白与顶部对称 */}
+        <p className="shrink-0 mt-4 sm:mt-5 text-[10px] text-slate-400 flex items-center justify-center gap-1">
           <span className="animate-wiggle">{"<"}</span>
           {" 滑动卡片做选择 "}
           <span className="animate-wiggle" style={{ animationDelay: "0.5s" }}>{">"}</span>
@@ -235,7 +240,7 @@ export function HomeScreen({ defaultNickname = "", onAction }: HomeScreenProps) 
       </div>
 
       {/* Bottom grass */}
-      <svg className="absolute bottom-0 left-0 right-0 opacity-20 pointer-events-none h-6 sm:h-8" viewBox="0 0 400 32" preserveAspectRatio="none" fill="none">
+      <svg className="shrink-0 w-full opacity-20 pointer-events-none h-6 sm:h-8" viewBox="0 0 400 32" preserveAspectRatio="none" fill="none">
         <path d="M0 32 Q8 16 16 28 Q24 8 32 24 Q40 12 48 28 Q56 4 64 24 Q72 14 80 28 Q88 6 96 24 Q104 14 112 28 Q120 4 128 24 Q136 12 144 28 Q152 6 160 26 Q168 14 176 28 Q184 8 192 24 Q200 12 208 28 Q216 4 224 24 Q232 14 240 28 Q248 6 256 24 Q264 12 272 28 Q280 4 288 24 Q296 14 304 28 Q312 6 320 24 Q328 12 336 28 Q344 4 352 24 Q360 14 368 28 Q376 8 384 24 Q392 14 400 28 V32 Z" fill="#5a9a6e"/>
       </svg>
     </div>
